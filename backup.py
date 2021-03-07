@@ -4,6 +4,7 @@ import os
 import tkinter as tk
 import configparser
 
+
 config = configparser.ConfigParser()
 #list = config.read('backup.cfg')
 window = tk.Tk()
@@ -17,9 +18,9 @@ listbox_widget = tk.Listbox(window, listvariable=list)
 
 def addPath(text):
     file = open("locations", "a")
-    file.write(text)
-    listbox_widget.insert(tk.END, addField.get() + '\n')
-    print('test1')
+    file.writelines(text)
+    listbox_widget.insert('end', text.rstrip())
+    print(text)
 
 # def refresh():
 # 	listbox_widget.delete(0, tk.END)
@@ -34,7 +35,7 @@ addbutton = tk.Button(window, text ="add", command = lambda:[addPath(addField.ge
 addbutton.pack()
 
 for path in list:
-    listbox_widget.insert(tk.END, path)
+    listbox_widget.insert('end', path.rstrip())
     listbox_widget.pack()
     # greeting = tk.Label(frame, text=path)
     # greeting.pack()
