@@ -18,16 +18,41 @@ frame.pack()
 bottomframe = tk.Frame(window)
 bottomframe.pack( side = tk.BOTTOM, fill = tk.BOTH)
 
-file = open("locations", "r")
-list = file.readlines()
-listbox_widget = tk.Listbox(bottomframe, listvariable=list, selectbackground='#ff2400', selectmode=tk.MULTIPLE, height=600)
+list=[]
+
+with open("locations", "r") as file:
+    list = file.readlines()
+    listbox_widget = tk.Listbox(bottomframe, listvariable=list, selectbackground='#ff2400', selectmode=tk.MULTIPLE, height=600)
 
 def addPath(text):
-    file = open("locations", "a")
-    file.writelines(text)
-    listbox_widget.insert('end', text.rstrip())
-    addField.delete(0, 'end')
-    # print(listbox_widget.curselection())
+    print("textu e:"+text) #logging
+    if checkPath(text) is not False:
+        print("E BUN") #logging
+        with open("locations", "a") as file:
+            file.writelines(text)
+            list.append(text)
+        listbox_widget.insert('end', text.rstrip())
+        addField.delete(0, 'end')
+        # print(listbox_widget.curselection())
+    else:
+        print("NU E BUN") #logging
+
+def checkPath(text):
+    with open("locations", "r") as file:
+        list = file.readlines()
+        for line in list:
+            if line.rstrip() == text.rstrip():
+                return False
+            else:
+                #copil
+                if text.rstrip().startswith(line.rstrip()):
+                    print("asta-i copil") #logging
+                    return False
+                #parinte
+                if line.rstrip().startswith(text.rstrip()):
+                    print("asta-i parinte") #logging
+                    return False
+    return True
 
 # def deletePath(text):
 #     file = open("locations", "a")
