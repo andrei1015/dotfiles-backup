@@ -9,12 +9,18 @@ config = configparser.ConfigParser()
 # list = config.read('backup.cfg')
 window = tk.Tk()
 window.title(".dotfiles backup")
-window.resizable(False, False)
-# window.geometry("700x700")
+window.resizable(True, False)
+window.geometry("700x600")
+
+frame = tk.Frame(window)
+frame.pack()
+
+bottomframe = tk.Frame(window)
+bottomframe.pack( side = tk.BOTTOM, fill = tk.BOTH)
 
 file = open("locations", "r")
 list = file.readlines()
-listbox_widget = tk.Listbox(window, listvariable=list, selectbackground='#ff2400', selectmode=tk.MULTIPLE)
+listbox_widget = tk.Listbox(bottomframe, listvariable=list, selectbackground='#ff2400', selectmode=tk.MULTIPLE, height=600)
 
 def addPath(text):
     file = open("locations", "a")
@@ -33,7 +39,7 @@ def addPath(text):
 def showList():
     for path in list:
         listbox_widget.insert('end', path.rstrip())
-        listbox_widget.pack()
+        listbox_widget.pack(side = tk.BOTTOM, fill = tk.BOTH)
 
 def deleteSelected(toDelete):
     for line in toDelete[::-1]:
@@ -48,12 +54,12 @@ def deleteSelected(toDelete):
 # 	    listbox_widget.insert(tk.END, path)
 
 
-addField = tk.Entry(window)
-addField.pack()
-addbutton = tk.Button(window, text ="add", command = lambda:[addPath(addField.get() + '\n')])
-addbutton.pack()
-removeButton = tk.Button(window, text ="remvoe", command = lambda:[deleteSelected(listbox_widget.curselection())])
-removeButton.pack()
+addField = tk.Entry(frame)
+addField.pack(side = tk.LEFT)
+addbutton = tk.Button(frame, text ="add", command = lambda:[addPath(addField.get() + '\n')])
+addbutton.pack(side = tk.LEFT)
+removeButton = tk.Button(frame, text ="remove", command = lambda:[deleteSelected(listbox_widget.curselection())])
+removeButton.pack(side = tk.LEFT)
 
 showList()
 
