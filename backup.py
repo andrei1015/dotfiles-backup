@@ -75,7 +75,7 @@ def save():
     for path in list:
         sanitised_path = os.path.expanduser(path.rstrip())
         # print(backup_location)
-        os.system("echo " + sanitised_path + " " + backup_location + sanitised_path)
+        os.system("cp -ar " + sanitised_path + " " + backup_location + "/")
         # print(path.rstrip())
 
 def showList():
