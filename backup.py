@@ -11,7 +11,19 @@ cfg = config.read('settings.cfg')
 window = tk.Tk()
 window.title(".dotfiles backup")
 window.resizable(True, False)
-window.geometry("700x600")
+#window.geometry("700x600")
+
+def center_window(w, h):
+    # get screen width and height
+    ws = window.winfo_screenwidth()
+    hs = window.winfo_screenheight()
+    # calculate position x, y
+    x = (ws/2) - (w/2)    
+    y = (hs/2) - (h/2)
+    window.geometry('%dx%d+%d+%d' % (w, h, x, y))
+
+
+center_window(700, 600)
 
 frame = tk.Frame(window)
 frame.pack()
@@ -75,7 +87,17 @@ def save():
     for path in list:
         sanitised_path = os.path.expanduser(path.rstrip())
         # print(backup_location)
-        os.system("cp -ar " + sanitised_path + " " + backup_location + "/")
+        # os.system("cp -ar " + sanitised_path + " " + backup_location + "/")
+        os.system("cp -ar " + sanitised_path + " " + backup_location + sanitised_path)
+        # print(path.rstrip())
+
+def restore():
+    backup_location = os.path.expanduser(config.get('SETTINGS', 'location'))
+    for path in list:
+        sanitised_path = os.path.expanduser(path.rstrip())
+        # print(backup_location)
+        os.system("echo " + backup_location + os.path.relpath(sanitised_path) + " " + sanitised_path)
+        #os.system("cp -ar " + sanitised_path + " " + backup_location + "/")
         # print(path.rstrip())
 
 def showList():
@@ -101,7 +123,7 @@ removeButton.pack(side = tk.LEFT)
 syncButton = tk.Button(frame, text ="save", command = lambda:[save()])
 syncButton.pack(side = tk.LEFT)
 
-restoreButton = tk.Button(frame, text ="restore")
+restoreButton = tk.Button(frame, text ="restore", command = lambda:[restore()])
 restoreButton.pack(side = tk.LEFT)
 
 
