@@ -7,7 +7,7 @@ import configparser
 
 
 config = configparser.ConfigParser()
-# list = config.read('backup.cfg')
+cfg = config.read('settings.cfg')
 window = tk.Tk()
 window.title(".dotfiles backup")
 window.resizable(True, False)
@@ -70,6 +70,14 @@ def checkPath(text):
 #     addField.delete(0, 'end')
 #     print(listbox_widget.curselection())
 
+def save():
+    backup_location = os.path.expanduser(config.get('SETTINGS', 'location'))
+    for path in list:
+        sanitised_path = os.path.expanduser(path.rstrip())
+        # print(backup_location)
+        os.system("echo " + sanitised_path + " " + backup_location + sanitised_path)
+        # print(path.rstrip())
+
 def showList():
     for path in list:
         listbox_widget.insert('end', path.rstrip())
@@ -83,14 +91,19 @@ def deleteSelected(toDelete):
 
 addField = tk.Entry(frame)
 addField.pack(side = tk.LEFT)
+
 addbutton = tk.Button(frame, text ="add", command = lambda:[addPath(addField.get() + '\n')])
 addbutton.pack(side = tk.LEFT)
+
 removeButton = tk.Button(frame, text ="remove selected", command = lambda:[deleteSelected(listbox_widget.curselection())])
 removeButton.pack(side = tk.LEFT)
-syncButton = tk.Button(frame, text ="sync")
+
+syncButton = tk.Button(frame, text ="save", command = lambda:[save()])
 syncButton.pack(side = tk.LEFT)
+
 restoreButton = tk.Button(frame, text ="restore")
 restoreButton.pack(side = tk.LEFT)
+
 
 showList()
 
