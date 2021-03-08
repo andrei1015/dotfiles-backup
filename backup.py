@@ -28,21 +28,14 @@ with open("locations", "r") as file:
 def addPath(text):
     # text = convertPath(text)
     # print(text)
-    print("textu e:"+text) #logging
-
     if os.path.exists(os.path.expanduser(text.rstrip())):
         if checkPath(text) is not False:
-            print("E BUN") #logging
             with open("locations", "a") as file:
                 file.writelines(text)
                 list.append(text)
             listbox_widget.insert('end', text.rstrip())
             addField.delete(0, 'end')
-            # print(listbox_widget.curselection())
-        else:
-            print("NU E BUN") #logging
     else:
-        print("NU E PATH") #logging
         messagebox.showerror('Error', 'The path you have provided is not a valid location')
 
 def checkPath(text):
@@ -50,19 +43,14 @@ def checkPath(text):
         list = file.readlines()
         for line in list:
             if os.path.expanduser(line.rstrip()) == os.path.expanduser(text.rstrip()):
-                print("duplicat") #logging
                 messagebox.showerror('Error', 'The path you have provided is already in the list')
                 return False
             else:
-                #copil
                 if os.path.expanduser(text.rstrip()).startswith(os.path.expanduser(line.rstrip())):
-                    print("asta-i copil") #logging
                     messagebox.showerror('Error', 'The path you have provided is the child of another entry')
                     return False
-                #parinte
                 if os.path.expanduser(line.rstrip()).startswith(os.path.expanduser(text.rstrip())):
                     messagebox.showerror('Error', 'The path you have provided is the parent of another entry')
-                    print("asta-i parinte") #logging
                     return False
     return True
 
@@ -92,13 +80,6 @@ def deleteSelected(toDelete):
         listbox_widget.delete(line)
         os.system("sed -i '" + str(line+1) + "d' locations")
         # print(line)
-        
-
-# def refresh():
-# 	listbox_widget.delete(0, tk.END)
-# 	for path in list:
-# 	    listbox_widget.insert(tk.END, path)
-
 
 addField = tk.Entry(frame)
 addField.pack(side = tk.LEFT)
@@ -112,11 +93,5 @@ restoreButton = tk.Button(frame, text ="restore")
 restoreButton.pack(side = tk.LEFT)
 
 showList()
-
-
-# for setting in list:
-#     paths = config.get('LIST', 'paths')
-#     greeting = tk.Label(text=paths)
-#     greeting.pack()
 
 window.mainloop()
