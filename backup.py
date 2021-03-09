@@ -2,7 +2,8 @@
 
 import os
 import tkinter as tk
-from tkinter import messagebox 
+from tkinter import messagebox
+from distutils.dir_util import copy_tree
 import configparser
 
 
@@ -87,8 +88,9 @@ def save():
     for path in list:
         sanitised_path = os.path.expanduser(path.rstrip())
         # print(backup_location)
-        # os.system("cp -ar " + sanitised_path + " " + backup_location + "/")
-        os.system("cp -ar " + sanitised_path + " " + backup_location + sanitised_path)
+        os.system("cp -ar --parents " + sanitised_path + " " + backup_location + "/")
+        # copy_tree(sanitised_path, backup_location)
+        # os.system("cp -ar " + sanitised_path + " " + backup_location + sanitised_path)
         # print(path.rstrip())
 
 def restore():
@@ -96,8 +98,8 @@ def restore():
     for path in list:
         sanitised_path = os.path.expanduser(path.rstrip())
         # print(backup_location)
-        os.system("echo " + backup_location + os.path.relpath(sanitised_path) + " " + sanitised_path)
-        #os.system("cp -ar " + sanitised_path + " " + backup_location + "/")
+        #os.system("echo " + backup_location + os.path.relpath(sanitised_path) + " " + sanitised_path)
+        os.system("cp -ar " + backup_location + "/" + sanitised_path + " " + sanitised_path)
         # print(path.rstrip())
 
 def showList():
