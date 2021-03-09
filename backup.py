@@ -95,7 +95,7 @@ def save():
 
 def restore():
     backup_location = os.path.expanduser(config.get('SETTINGS', 'location'))
-    home = expanduser("~")
+    home = os.path.expanduser("~")
     for path in list:
         sanitised_path = os.path.expanduser(path.rstrip())
         # print(backup_location)
