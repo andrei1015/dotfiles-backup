@@ -95,11 +95,13 @@ def save():
 
 def restore():
     backup_location = os.path.expanduser(config.get('SETTINGS', 'location'))
+    home = expanduser("~")
     for path in list:
         sanitised_path = os.path.expanduser(path.rstrip())
         # print(backup_location)
         #os.system("echo " + backup_location + os.path.relpath(sanitised_path) + " " + sanitised_path)
-        os.system("cp -ar " + backup_location + "/" + sanitised_path + " " + sanitised_path)
+        os.system("cp -r " + backup_location + sanitised_path + " " + home)
+        print("cp -r " + backup_location + sanitised_path + " " + home)
         # print(path.rstrip())
 
 def showList():

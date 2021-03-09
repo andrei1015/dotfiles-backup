@@ -22,3 +22,7 @@ I'm a beginner in stuff like this. I'm a beginner in a lot of things. But this i
 ---
 
 ??
+
+###### testing
+
+For testing i have made a few mock locations inside the /etc/skel folder and whenever i want to check something i create a new user. This way you do not risk messing up your own home directory.
