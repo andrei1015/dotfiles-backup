@@ -12,7 +12,6 @@ cfg = config.read('settings.cfg')
 window = tk.Tk()
 window.title(".dotfiles backup")
 window.resizable(True, False)
-#window.geometry("700x600")
 
 def center_window(w, h):
     # get screen width and height
@@ -67,42 +66,18 @@ def checkPath(text):
                     return False
     return True
 
-# def convertPath(text):
-#     if os.path.isdir(text.rstrip()):
-#         return "dir"
-#         # if not text.endswith(os.path.sep):
-#         #     text = text.rstrip() + os.path.sep
-#         #     return text
-#     else:
-#         return text
-
-# def deletePath(text):
-#     file = open("locations", "a")
-#     file.writelines(text)
-#     listbox_widget.insert('end', text.rstrip())
-#     addField.delete(0, 'end')
-#     print(listbox_widget.curselection())
-
 def save():
     backup_location = os.path.expanduser(config.get('SETTINGS', 'location'))
     for path in list:
         sanitised_path = os.path.expanduser(path.rstrip())
-        # print(backup_location)
         os.system("cp -ar --parents " + sanitised_path + " " + backup_location + "/")
-        # copy_tree(sanitised_path, backup_location)
-        # os.system("cp -ar " + sanitised_path + " " + backup_location + sanitised_path)
-        # print(path.rstrip())
 
 def restore():
     backup_location = os.path.expanduser(config.get('SETTINGS', 'location'))
     home = os.path.expanduser("~")
     for path in list:
         sanitised_path = os.path.expanduser(path.rstrip())
-        # print(backup_location)
-        #os.system("echo " + backup_location + os.path.relpath(sanitised_path) + " " + sanitised_path)
         os.system("cp -r " + backup_location + sanitised_path + " " + home)
-        print("cp -r " + backup_location + sanitised_path + " " + home)
-        # print(path.rstrip())
 
 def showList():
     for path in list:
@@ -113,7 +88,6 @@ def deleteSelected(toDelete):
     for line in toDelete[::-1]:
         listbox_widget.delete(line)
         os.system("sed -i '" + str(line+1) + "d' locations")
-        # print(line)
 
 addField = tk.Entry(frame)
 addField.pack(side = tk.LEFT)
