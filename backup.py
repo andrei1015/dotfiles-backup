@@ -89,19 +89,24 @@ def deleteSelected(toDelete):
         listbox_widget.delete(line)
         os.system("sed -i '" + str(line+1) + "d' locations")
 
+
 addField = tk.Entry(frame)
 addField.pack(side = tk.LEFT)
 
-addbutton = tk.Button(frame, text ="add", command = lambda:[addPath(addField.get() + '\n')])
+addIcon = tk.PhotoImage(file = "add.png") 
+addbutton = tk.Button(frame, text ="add", image = addIcon, compound=tk.LEFT, command = lambda:[addPath(addField.get() + '\n')])
 addbutton.pack(side = tk.LEFT)
 
-removeButton = tk.Button(frame, text ="remove selected", command = lambda:[deleteSelected(listbox_widget.curselection())])
+removeIcon = tk.PhotoImage(file = "remove.png") 
+removeButton = tk.Button(frame, text ="remove selected", image = removeIcon, compound=tk.LEFT, command = lambda:[deleteSelected(listbox_widget.curselection())])
 removeButton.pack(side = tk.LEFT)
 
-syncButton = tk.Button(frame, text ="save", command = lambda:[save()])
-syncButton.pack(side = tk.LEFT)
+saveIcon = tk.PhotoImage(file = "save.png") 
+saveButton = tk.Button(frame, text ="save", image = saveIcon, compound=tk.LEFT, command = lambda:[save()])
+saveButton.pack(side = tk.LEFT)
 
-restoreButton = tk.Button(frame, text ="restore", command = lambda:[restore()])
+restoreIcon = tk.PhotoImage(file = "restore.png") 
+restoreButton = tk.Button(frame, text ="restore", image = restoreIcon, compound=tk.LEFT, command = lambda:[restore()])
 restoreButton.pack(side = tk.LEFT)
 
 
