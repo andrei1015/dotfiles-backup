@@ -13,6 +13,7 @@ window = tk.Tk()
 window.title(".dotfiles backup")
 window.resizable(True, True)
 window.columnconfigure(0, weight=1)
+window.rowconfigure(1, weight=1)
 
 def center_window(w, h):
     # get screen width and height
@@ -31,16 +32,18 @@ frame.grid(row=0, column=0, padx=5,pady=5, sticky='nsew')
 frame.columnconfigure(0, weight=1)
 
 
-bottomframe = tk.Frame(window)
-bottomframe.grid(row=1, column=0, sticky='nsew')
+bottomframe = tk.Frame(window, background='red')
+bottomframe.grid(row=1, column=0, sticky='nswe')
 bottomframe.columnconfigure(0, weight=1)
-bottomframe.rowconfigure(0, weight=1)
+bottomframe.rowconfigure(1, weight=1)
 
 list=[]
 
 with open("locations", "r") as file:
     list = file.readlines()
     listbox_widget = tk.Listbox(bottomframe, listvariable=list, selectbackground='#ff2400', selectmode=tk.MULTIPLE)
+    listbox_widget.grid(row=1, column=0, sticky='nsew')
+    # listbox_widget.rowconfigure(0, weight=1)
 
 def addPath(text):
     if os.path.exists(os.path.expanduser(text.rstrip())):
@@ -82,18 +85,18 @@ def restore():
         sanitised_path = os.path.expanduser(path.rstrip())
         os.system("cp -r " + backup_location + sanitised_path + " " + home)
 
-def showList():
-    for path in list:
-        listbox_widget.insert('end', path.rstrip())
-        listbox_widget.grid(row=1, column=0, padx=5,pady=5, sticky='nsew')
-
 def deleteSelected(toDelete):
     for line in toDelete[::-1]:
         listbox_widget.delete(line)
         os.system("sed -i '" + str(line+1) + "d' locations")
 
+def showList():
+    for path in list:
+        listbox_widget.insert('end', path.rstrip())
+        listbox_widget.grid(row=1, column=0, sticky='nsew')
+        #listbox_widget.rowconfigure(0, weight=1)
 
-addField = tk.Entry(frame, width=100)
+addField = tk.Entry(frame, width=1000)
 addField.grid(row = 0, column = 0, ipady=5)
 
 addIcon = tk.PhotoImage(file = config.get('SETTINGS', 'addIcon')) 

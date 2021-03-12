@@ -2,13 +2,7 @@
 
 #### executable
 
-add this to your .bash_aliases:
-
-```
-alias backup='cd ~/.config/dotfiles/ && python3 ~/.config/dotfiles/backup.py'
-```
-
-It's python, what did you expect?
+Double click the file called `backup`. That's it. Either that or your file manager thinks otherwise, in which case you need to tell it to open the file as an application.
 
 ###### why?
 
