@@ -1,0 +1,5 @@
+[ICONS]
+https://www.flaticon.com/free-icon/plus_1828574
+https://www.flaticon.com/free-icon/remove_189690
+https://www.flaticon.com/free-icon/diskette_718323
+https://www.flaticon.com/free-icon/backup_1803613

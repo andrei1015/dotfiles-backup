@@ -11,7 +11,8 @@ config = configparser.ConfigParser()
 cfg = config.read('settings.cfg')
 window = tk.Tk()
 window.title(".dotfiles backup")
-window.resizable(True, False)
+window.resizable(True, True)
+window.columnconfigure(0, weight=1)
 
 def center_window(w, h):
     # get screen width and height
@@ -23,23 +24,24 @@ def center_window(w, h):
     window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
 
-center_window(700, 600)
+center_window(700, 300)
 
 frame = tk.Frame(window)
-frame.pack()
+frame.grid(row=0, column=0, sticky='nsew')
+frame.columnconfigure(0, weight=1)
+
 
 bottomframe = tk.Frame(window)
-bottomframe.pack( side = tk.BOTTOM, fill = tk.BOTH)
+bottomframe.grid(row=1, column=0, columnspan=6, sticky='nsew')
+bottomframe.columnconfigure(0, weight=1)
 
 list=[]
 
 with open("locations", "r") as file:
     list = file.readlines()
-    listbox_widget = tk.Listbox(bottomframe, listvariable=list, selectbackground='#ff2400', selectmode=tk.MULTIPLE, height=600)
+    listbox_widget = tk.Listbox(bottomframe, listvariable=list, selectbackground='#ff2400', selectmode=tk.MULTIPLE)
 
 def addPath(text):
-    # text = convertPath(text)
-    # print(text)
     if os.path.exists(os.path.expanduser(text.rstrip())):
         if checkPath(text) is not False:
             with open("locations", "a") as file:
@@ -82,7 +84,7 @@ def restore():
 def showList():
     for path in list:
         listbox_widget.insert('end', path.rstrip())
-        listbox_widget.pack(side = tk.BOTTOM, fill = tk.BOTH)
+        listbox_widget.grid(row=1, column=0, sticky='nsew')
 
 def deleteSelected(toDelete):
     for line in toDelete[::-1]:
@@ -90,24 +92,24 @@ def deleteSelected(toDelete):
         os.system("sed -i '" + str(line+1) + "d' locations")
 
 
-addField = tk.Entry(frame)
-addField.pack(side = tk.LEFT)
+addField = tk.Entry(frame, width=100)
+addField.grid(row = 0, column = 0, ipady=5)
 
-addIcon = tk.PhotoImage(file = "add.png") 
+addIcon = tk.PhotoImage(file = config.get('SETTINGS', 'addIcon')) 
 addbutton = tk.Button(frame, text ="add", image = addIcon, compound=tk.LEFT, command = lambda:[addPath(addField.get() + '\n')])
-addbutton.pack(side = tk.LEFT)
+addbutton.grid(row = 0, column = 1)
 
-removeIcon = tk.PhotoImage(file = "remove.png") 
+removeIcon = tk.PhotoImage(file = config.get('SETTINGS', 'removeIcon')) 
 removeButton = tk.Button(frame, text ="remove selected", image = removeIcon, compound=tk.LEFT, command = lambda:[deleteSelected(listbox_widget.curselection())])
-removeButton.pack(side = tk.LEFT)
+removeButton.grid(row = 0, column = 2)
 
-saveIcon = tk.PhotoImage(file = "save.png") 
+saveIcon = tk.PhotoImage(file = config.get('SETTINGS', 'saveIcon')) 
 saveButton = tk.Button(frame, text ="save", image = saveIcon, compound=tk.LEFT, command = lambda:[save()])
-saveButton.pack(side = tk.LEFT)
+saveButton.grid(row = 0, column = 3)
 
-restoreIcon = tk.PhotoImage(file = "restore.png") 
+restoreIcon = tk.PhotoImage(file = config.get('SETTINGS', 'restoreIcon')) 
 restoreButton = tk.Button(frame, text ="restore", image = restoreIcon, compound=tk.LEFT, command = lambda:[restore()])
-restoreButton.pack(side = tk.LEFT)
+restoreButton.grid(row = 0, column = 4)
 
 
 showList()
