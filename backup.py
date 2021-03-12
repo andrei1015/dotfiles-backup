@@ -28,12 +28,12 @@ def center_window(w, h):
 center_window(700, 300)
 
 frame = tk.Frame(window)
-frame.grid(row=0, column=0, padx=5,pady=5, sticky='nsew')
+frame.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
 frame.columnconfigure(0, weight=1)
 
 
 bottomframe = tk.Frame(window, background='red')
-bottomframe.grid(row=1, column=0, sticky='nswe')
+bottomframe.grid(row=1, column=0, padx=5, pady=5, sticky='nswe')
 bottomframe.columnconfigure(0, weight=1)
 bottomframe.rowconfigure(1, weight=1)
 
