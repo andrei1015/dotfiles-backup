@@ -15,17 +15,19 @@ window.resizable(True, True)
 window.columnconfigure(0, weight=1)
 window.rowconfigure(1, weight=1)
 
-def center_window(w, h):
-    # get screen width and height
-    ws = window.winfo_screenwidth()
-    hs = window.winfo_screenheight()
-    # calculate position x, y
-    x = (ws/2) - (w/2)    
-    y = (hs/2) - (h/2)
-    window.geometry('%dx%d+%d+%d' % (w, h, x, y))
+# def center_window(w, h):
+#     # get screen width and height
+#     ws = window.winfo_screenwidth()
+#     hs = window.winfo_screenheight()
+#     # calculate position x, y
+#     x = (ws/2) - (w/2)    
+#     y = (hs/2) - (h/2)
+#     window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
 
-center_window(700, 300)
+# center_window(700, 300)
+window.geometry("100x200")
+window.minsize(700, 300)
 
 frame = tk.Frame(window)
 frame.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
