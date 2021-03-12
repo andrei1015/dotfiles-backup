@@ -27,13 +27,14 @@ def center_window(w, h):
 center_window(700, 300)
 
 frame = tk.Frame(window)
-frame.grid(row=0, column=0, sticky='nsew')
+frame.grid(row=0, column=0, padx=5,pady=5, sticky='nsew')
 frame.columnconfigure(0, weight=1)
 
 
 bottomframe = tk.Frame(window)
-bottomframe.grid(row=1, column=0, columnspan=6, sticky='nsew')
+bottomframe.grid(row=1, column=0, sticky='nsew')
 bottomframe.columnconfigure(0, weight=1)
+bottomframe.rowconfigure(0, weight=1)
 
 list=[]
 
@@ -84,7 +85,7 @@ def restore():
 def showList():
     for path in list:
         listbox_widget.insert('end', path.rstrip())
-        listbox_widget.grid(row=1, column=0, sticky='nsew')
+        listbox_widget.grid(row=1, column=0, padx=5,pady=5, sticky='nsew')
 
 def deleteSelected(toDelete):
     for line in toDelete[::-1]:
