@@ -6,6 +6,23 @@ from tkinter import messagebox
 from distutils.dir_util import copy_tree
 import configparser
 
+def files():
+    settingsFile = os.path.exists('settings.cfg')
+    locationsFile = os.path.exists('locations')
+    if settingsFile == False or locationsFile == False:
+        settingsFile = open("settings.cfg", "w+")
+        settingsFile.write('[SETTINGS]\n')
+        settingsFile.write('location = ~/.dotfiles\n')
+        settingsFile.write('addIcon = add.png\n')
+        settingsFile.write('removeIcon = remove.png\n')
+        settingsFile.write('saveIcon = save.png\n')
+        settingsFile.write('restoreIcon = restore.png\n')
+        locationsFile = open("locations", "w+")
+        locationsFile.write('~/.bashrc\n')
+        locationsFile.write('~/.profile\n')
+        settingsFile.close()
+        locationsFile.close()
+files()
 
 config = configparser.ConfigParser()
 cfg = config.read('settings.cfg')
