@@ -1,5 +1,3 @@
-# sudo ln -s /home/andrei/scripts/dotfiles /etc/skel/.config/dotfiles
-
 import os
 import tkinter as tk
 from tkinter import messagebox
@@ -32,18 +30,8 @@ window.resizable(True, True)
 window.columnconfigure(0, weight=1)
 window.rowconfigure(1, weight=1)
 
-# def center_window(w, h):
-#     # get screen width and height
-#     ws = window.winfo_screenwidth()
-#     hs = window.winfo_screenheight()
-#     # calculate position x, y
-#     x = (ws/2) - (w/2)    
-#     y = (hs/2) - (h/2)
-#     window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
-
-# center_window(700, 300)
-window.geometry("100x200")
+window.geometry("700x300")
 window.minsize(700, 300)
 
 frame = tk.Frame(window)
@@ -62,7 +50,6 @@ with open("locations", "r") as file:
     list = file.readlines()
     listbox_widget = tk.Listbox(bottomframe, listvariable=list, selectbackground='#ff2400', selectmode=tk.MULTIPLE)
     listbox_widget.grid(row=1, column=0, sticky='nsew')
-    # listbox_widget.rowconfigure(0, weight=1)
 
 def addPath(text):
     if os.path.exists(os.path.expanduser(text.rstrip())):
