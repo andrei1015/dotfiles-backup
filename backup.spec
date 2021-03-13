@@ -15,6 +15,12 @@ a = Analysis(['/home/andrei/scripts/dotfiles/backup.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
+
+a.datas += [('add.png','/home/andrei/scripts/dotfiles/add.png', "DATA")]      
+a.datas += [('remove.png','/home/andrei/scripts/dotfiles/remove.png', "DATA")]     
+a.datas += [('save.png','/home/andrei/scripts/dotfiles/save.png', "DATA")]     
+a.datas += [('restore.png','/home/andrei/scripts/dotfiles/restore.png', "DATA")]  
+
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,

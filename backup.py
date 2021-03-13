@@ -6,6 +6,31 @@ from tkinter import messagebox
 from distutils.dir_util import copy_tree
 import configparser
 
+def files():
+    settingsFile = os.path.exists('settings.cfg')
+    locationsFile = os.path.exists('locations')
+    if settingsFile == False or locationsFile == False:
+        settingsFile = open("settings.cfg", "w+")
+        settingsFile.write('[SETTINGS]\n')
+        settingsFile.write('location = ~/.dotfiles\n')
+        settingsFile.write('addIcon = add.png\n')
+        settingsFile.write('removeIcon = remove.png\n')
+        settingsFile.write('saveIcon = save.png\n')
+        settingsFile.write('restoreIcon = restore.png\n')
+        locationsFile = open("locations", "w+")
+        locationsFile.write('~/.bashrc\n')
+        locationsFile.write('~/.profile\n')
+        settingsFile.close()
+        locationsFile.close()
+files()
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 config = configparser.ConfigParser()
 cfg = config.read('settings.cfg')
@@ -76,6 +101,7 @@ def checkPath(text):
 
 def save():
     backup_location = os.path.expanduser(config.get('SETTINGS', 'location'))
+    backupFolder()
     for path in list:
         sanitised_path = os.path.expanduser(path.rstrip())
         os.system("cp -ar --parents " + sanitised_path + " " + backup_location + "/")
@@ -98,23 +124,28 @@ def showList():
         listbox_widget.grid(row=1, column=0, sticky='nsew')
         #listbox_widget.rowconfigure(0, weight=1)
 
+def backupFolder():
+    backupFolder = os.path.expanduser(config.get('SETTINGS', 'location').rstrip())
+    if os.path.exists(backupFolder) == False:
+        os.makedirs(backupFolder)
+
 addField = tk.Entry(frame, width=1000)
 addField.grid(row = 0, column = 0, ipady=5)
 
-addIcon = tk.PhotoImage(file = config.get('SETTINGS', 'addIcon')) 
-addbutton = tk.Button(frame, text ="add", image = addIcon, compound=tk.LEFT, command = lambda:[addPath(addField.get() + '\n')])
+#addIcon = tk.PhotoImage(file = config.get('SETTINGS', 'addIcon')) 
+addbutton = tk.Button(frame, text ="add", image = resource_path('add.png'), compound=tk.LEFT, command = lambda:[backupFolder(), addPath(addField.get() + '\n')])
 addbutton.grid(row = 0, column = 1)
 
-removeIcon = tk.PhotoImage(file = config.get('SETTINGS', 'removeIcon')) 
-removeButton = tk.Button(frame, text ="remove selected", image = removeIcon, compound=tk.LEFT, command = lambda:[deleteSelected(listbox_widget.curselection())])
+#removeIcon = tk.PhotoImage(file = config.get('SETTINGS', 'removeIcon')) 
+removeButton = tk.Button(frame, text ="remove selected", image = resource_path('remove.png'), compound=tk.LEFT, command = lambda:[deleteSelected(listbox_widget.curselection())])
 removeButton.grid(row = 0, column = 2)
 
-saveIcon = tk.PhotoImage(file = config.get('SETTINGS', 'saveIcon')) 
-saveButton = tk.Button(frame, text ="save", image = saveIcon, compound=tk.LEFT, command = lambda:[save()])
+#saveIcon = tk.PhotoImage(file = config.get('SETTINGS', 'saveIcon')) 
+saveButton = tk.Button(frame, text ="save", image = resource_path('save.png'), compound=tk.LEFT, command = lambda:[save()])
 saveButton.grid(row = 0, column = 3)
 
-restoreIcon = tk.PhotoImage(file = config.get('SETTINGS', 'restoreIcon')) 
-restoreButton = tk.Button(frame, text ="restore", image = restoreIcon, compound=tk.LEFT, command = lambda:[restore()])
+#restoreIcon = tk.PhotoImage(file = config.get('SETTINGS', 'restoreIcon')) 
+restoreButton = tk.Button(frame, text ="restore", image = resource_path('restore.png'), compound=tk.LEFT, command = lambda:[restore()])
 restoreButton.grid(row = 0, column = 4)
 
 
