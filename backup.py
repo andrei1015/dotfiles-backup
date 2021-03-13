@@ -1,8 +1,9 @@
-import os
+import os, sys
 import tkinter as tk
 from tkinter import messagebox
 from distutils.dir_util import copy_tree
 import configparser
+from images_base64 import getImage, addIcon, removeIcon, saveIcon, restoreIcon
 
 def files():
     settingsFile = os.path.exists('settings.cfg')
@@ -22,13 +23,11 @@ def files():
         locationsFile.close()
 files()
 
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
+def resource_path(filename):
+    if hasattr(sys, "_MEIPASS"):
+        return f'{os.path.join(sys._MEIPASS, filename)}'
+    else:
+        return f'{filename}'
 
 config = configparser.ConfigParser()
 cfg = config.read('settings.cfg')
@@ -119,20 +118,20 @@ def showList():
 addField = tk.Entry(frame, width=1000)
 addField.grid(row = 0, column = 0, ipady=5)
 
-#addIcon = tk.PhotoImage(file = config.get('SETTINGS', 'addIcon')) 
-addbutton = tk.Button(frame, text ="add", image = resource_path('add.png'), compound=tk.LEFT, command = lambda:[backupFolder(), addPath(addField.get() + '\n')])
+addIcon = tk.PhotoImage(data = addIcon) 
+addbutton = tk.Button(frame, text ="add", image = addIcon, compound=tk.LEFT, command = lambda:[addPath(addField.get() + '\n')])
 addbutton.grid(row = 0, column = 1)
 
-#removeIcon = tk.PhotoImage(file = config.get('SETTINGS', 'removeIcon')) 
-removeButton = tk.Button(frame, text ="remove selected", image = resource_path('remove.png'), compound=tk.LEFT, command = lambda:[deleteSelected(listbox_widget.curselection())])
+removeIcon = tk.PhotoImage(data = removeIcon) 
+removeButton = tk.Button(frame, text ="remove selected", image = removeIcon, compound=tk.LEFT, command = lambda:[deleteSelected(listbox_widget.curselection())])
 removeButton.grid(row = 0, column = 2)
 
-#saveIcon = tk.PhotoImage(file = config.get('SETTINGS', 'saveIcon')) 
-saveButton = tk.Button(frame, text ="save", image = resource_path('save.png'), compound=tk.LEFT, command = lambda:[save()])
+saveIcon = tk.PhotoImage(data = saveIcon) 
+saveButton = tk.Button(frame, text ="save", image = saveIcon, compound=tk.LEFT, command = lambda:[save()])
 saveButton.grid(row = 0, column = 3)
 
-#restoreIcon = tk.PhotoImage(file = config.get('SETTINGS', 'restoreIcon')) 
-restoreButton = tk.Button(frame, text ="restore", image = resource_path('restore.png'), compound=tk.LEFT, command = lambda:[restore()])
+restoreIcon = tk.PhotoImage(data = restoreIcon) 
+restoreButton = tk.Button(frame, text ="restore", image = restoreIcon, compound=tk.LEFT, command = lambda:[restore()])
 restoreButton.grid(row = 0, column = 4)
 
 
