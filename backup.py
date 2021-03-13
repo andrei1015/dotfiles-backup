@@ -80,9 +80,15 @@ def checkPath(text):
 
 def save():
     backup_location = os.path.expanduser(config.get('SETTINGS', 'location'))
+    backupFolder()
     for path in list:
         sanitised_path = os.path.expanduser(path.rstrip())
         os.system("cp -ar --parents " + sanitised_path + " " + backup_location + "/")
+
+def backupFolder():
+    backupFolder = os.path.expanduser(config.get('SETTINGS', 'location').rstrip())
+    if os.path.exists(backupFolder) == False:
+        os.makedirs(backupFolder)
 
 def restore():
     backup_location = os.path.expanduser(config.get('SETTINGS', 'location'))
